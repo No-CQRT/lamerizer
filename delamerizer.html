@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>De-Lamerizer v2.6</title>
+    <style>
+        /* Reset e Variabili */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        :root {
+            --bg-color: #0d0e15;
+            --container-bg: #151821;
+            --accent-color: #00ff66;
+            --text-color: #e0e6ed;
+            --text-muted: #6272a4;
+            --border-color: #282a36;
+        }
+
+        /* Stili Generali */
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+
+        .container {
+            background-color: var(--container-bg);
+            width: 100%;
+            max-width: 650px;
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        header h1 {
+            color: var(--accent-color);
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 8px rgba(0, 255, 102, 0.3);
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        /* Opzioni Stile (Radio Buttons) */
+        .options-group {
+            display: flex;
+            justify-content: space-around;
+            background-color: var(--bg-color);
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .option-item input[type="radio"] {
+            accent-color: var(--accent-color);
+            cursor: pointer;
+        }
+
+        .option-item label {
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* Campi di Testo */
+        .field-box {
+            margin-bottom: 20px;
+        }
+
+        .field-box label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--accent-color);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 12px;
+            color: var(--text-color);
+            font-family: inherit;
+            font-size: 1rem;
+            resize: vertical;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 5px rgba(0, 255, 102, 0.2);
+        }
+
+        textarea[readonly] {
+            background-color: rgba(13, 14, 21, 0.6);
+            color: #a8ffb2;
+        }
+
+        /* Media Queries per schermi piccolissimi */
+        @media (max-width: 400px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            .options-group {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+                padding-left: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>De-Lamerizer</h1>
+            <p>inspired by ElfQrin</p>
+        </header>
+
+        <div class="options-group">
+            <div class="option-item">
+                <input type="radio" id="style-soft" name="lamer-style" value="soft" checked>
+                <label for="style-soft">Soft</label>
+            </div>
+            <div class="option-item">
+                <input type="radio" id="style-medium" name="lamer-style" value="medium">
+                <label for="style-medium">Medium (1337)</label>
+            </div>
+            <div class="option-item">
+                <input type="radio" id="style-hard" name="lamer-style" value="hard">
+                <label for="style-hard">Hardcore</label>
+            </div>
+        </div>
+
+        <div class="field-box">
+            <label for="input-text">inserisci testo</label>
+            <textarea id="input-text" placeholder="Incolla qui il testo lamerizzato da decifrare..."></textarea>
+        </div>
+
+        <div class="field-box">
+            <label for="output-text">De-lamerized</label>
+            <textarea id="output-text" readonly placeholder="Testo tradotto in chiaro..."></textarea>
+        </div>
+    </div>
+
+    <script>
+        // Mappe di decifratura (Invertite rispetto al Lamerizer)
+        // Nota per l'Hardcore: l'ordine degli elementi è cruciale. I simboli più lunghi 
+        // devono essere tradotti per primi, altrimenti sottostringhe parziali verrebbero corrotte.
+        const deLamerMap = {
+            soft: [
+                { lamer: '4', clear: 'a' }, { lamer: '3', clear: 'e' },
+                { lamer: '1', clear: 'i' }, { lamer: '0', clear: 'o' },
+                { lamer: '5', clear: 's' }, { lamer: '7', clear: 't' }
+            ],
+            medium: [
+                { lamer: '4', clear: 'a' }, { lamer: '8', clear: 'b' },
+                { lamer: '3', clear: 'e' }, { lamer: '9', clear: 'g' },
+                { lamer: '1', clear: 'i' }, { lamer: '0', clear: 'o' },
+                { lamer: '5', clear: 's' }, { lamer: '7', clear: 't' },
+                { lamer: '2', clear: 'z' }
+            ],
+            hard: [
+                // Prima i simboli a 4 e 3 caratteri
+                { lamer: '\\/\\/', clear: 'w' }, { lamer: '|\\/|', clear: 'm' }, 
+                { lamer: '|\\|', clear: 'n' }, { lamer: '(-)', clear: 'h' },
+                { lamer: '|-|', clear: 'h' }, { lamer: '(,)', clear: 'q' },
+                // Poi i simboli a 2 caratteri
+                { lamer: '|3', clear: 'b' }, { lamer: '|)', clear: 'd' },
+                { lamer: '|=', clear: 'f' }, { lamer: '_|', clear: 'j' },
+                { lamer: '|<', clear: 'k' }, { lamer: '|*', clear: 'p' },
+                { lamer: '|2', clear: 'r' }, { lamer: '|_|', clear: 'u' },
+                { lamer: '\\/', clear: 'v' }, { lamer: '><', clear: 'x' },
+                { lamer: '`/', clear: 'y' },
+                // Infine i caratteri singoli
+                { lamer: '4', clear: 'a' }, { lamer: '(', clear: 'c' },
+                { lamer: '3', clear: 'e' }, { lamer: '6', clear: 'g' },
+                { lamer: '!', clear: 'i' }, { lamer: '1', clear: 'l' },
+                { lamer: '0', clear: 'o' }, { lamer: '$', clear: 's' },
+                { lamer: '7', clear: 't' }, { lamer: '2', clear: 'z' }
+            ]
+        };
+
+        const inputText = document.getElementById('input-text');
+        const outputText = document.getElementById('output-text');
+        const styleRadios = document.querySelectorAll('input[name="lamer-style"]');
+
+        function deLamerize() {
+            let text = inputText.value;
+            const selectedStyle = document.querySelector('input[name="lamer-style"]:checked').value;
+            const currentRules = deLamerMap[selectedStyle];
+
+            // Applica le sostituzioni basate sulla modalità selezionata
+            currentRules.forEach(rule => {
+                // Utilizziamo un'espressione regolare per sostituire globalmente il simbolo.
+                // Viene fatto l'escape dei caratteri speciali delle regex (come |, \, $, (, ), ?, ecc.)
+                const escapedLamer = rule.lamer.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                const regex = new RegExp(escapedLamer, 'gi');
+                text = text.replace(regex, rule.clear);
+            });
+
+            // Converte tutto il testo risultante in minuscolo per pulizia (visto che il lamerizer originale mescolava il case)
+            outputText.value = text.toLowerCase();
+        }
+
+        // Event Listeners per la decifratura in tempo reale
+        inputText.addEventListener('input', deLamerize);
+        
+        styleRadios.forEach(radio => {
+            radio.addEventListener('change', deLamerize);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lame Translator v2.6</title>
+    <style>
+        /* Reset e Variabili */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        :root {
+            --bg-color: #0d0e15;
+            --container-bg: #151821;
+            --accent-color: #00ff66;
+            --text-color: #e0e6ed;
+            --text-muted: #6272a4;
+            --border-color: #282a36;
+            --btn-hover-bg: rgba(0, 255, 102, 0.1);
+        }
+
+        /* Stili Generali */
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+
+        .container {
+            background-color: var(--container-bg);
+            width: 100%;
+            max-width: 650px;
+            padding: 40px 25px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            color: var(--accent-color);
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 8px rgba(0, 255, 102, 0.3);
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        /* Menu Pulsanti */
+        .menu-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .lame-btn {
+            display: block;
+            width: 100%;
+            /* Altezza generosa per emulare la dimensione dei textarea precedenti */
+            height: 120px; 
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-color);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        /* Effetti Hover e Focus */
+        .lame-btn:hover, .lame-btn:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            background-color: var(--btn-hover-bg);
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .lame-btn:active {
+            transform: translateY(1px);
+        }
+
+        /* Tipografia dei pulsanti */
+        .btn-title {
+            color: var(--accent-color);
+            font-size: 1.4rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 6px;
+        }
+
+        .btn-desc {
+            color: var(--text-color);
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Media Queries per schermi piccolissimi */
+        @media (max-width: 400px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            .btn-title {
+                font-size: 1.2rem;
+            }
+            .btn-desc {
+                font-size: 0.8rem;
+            }
+            .lame-btn {
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Lame Translator</h1>
+            <p>inspired by ElfQrin</p>
+        </header>
+
+        <nav class="menu-grid">
+            
+            <a href="lamerizer.html" class="lame-btn" aria-label="Vai al Lamerizer">
+                <span class="btn-title">Lamerizer</span>
+                <span class="btn-desc">Testo chiaro &rarr; Lamerizzato</span>
+            </a>
+
+            <a href="delamerizer.html" class="lame-btn" aria-label="Vai al De-Lamerizer">
+                <span class="btn-title">De-Lamerizer</span>
+                <span class="btn-desc">Lamerizzato &rarr; Testo chiaro</span>
+            </a>
+
+        </nav>
+    </div>
+
+</body>
+</html>

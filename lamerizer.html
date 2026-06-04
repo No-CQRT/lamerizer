@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lamerizer v2.6</title>
+    <style>
+        /* Reset e Variabili */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        :root {
+            --bg-color: #0d0e15;
+            --container-bg: #151821;
+            --accent-color: #00ff66;
+            --text-color: #e0e6ed;
+            --text-muted: #6272a4;
+            --border-color: #282a36;
+        }
+
+        /* Stili Generali */
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+
+        .container {
+            background-color: var(--container-bg);
+            width: 100%;
+            max-width: 650px;
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        header h1 {
+            color: var(--accent-color);
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 8px rgba(0, 255, 102, 0.3);
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        /* Opzioni Stile (Radio Buttons) */
+        .options-group {
+            display: flex;
+            justify-content: space-around;
+            background-color: var(--bg-color);
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .option-item input[type="radio"] {
+            accent-color: var(--accent-color);
+            cursor: pointer;
+        }
+
+        .option-item label {
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* Campi di Testo */
+        .field-box {
+            margin-bottom: 20px;
+        }
+
+        .field-box label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--accent-color);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 12px;
+            color: var(--text-color);
+            font-family: inherit;
+            font-size: 1rem;
+            resize: vertical;
+            transition: border-color 0.3s standard, box-shadow 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 5px rgba(0, 255, 102, 0.2);
+        }
+
+        textarea[readonly] {
+            background-color: rgba(13, 14, 21, 0.6);
+            color: #a8ffb2;
+        }
+
+        /* Media Queries per schermi piccolissimi */
+        @media (max-width: 400px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            .options-group {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+                padding-left: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Lamerizer</h1>
+            <p>inspired by ElfQrin</p>
+        </header>
+
+        <div class="options-group">
+            <div class="option-item">
+                <input type="radio" id="style-soft" name="lamer-style" value="soft" checked>
+                <label for="style-soft">Soft</label>
+            </div>
+            <div class="option-item">
+                <input type="radio" id="style-medium" name="lamer-style" value="medium">
+                <label for="style-medium">Medium (1337)</label>
+            </div>
+            <div class="option-item">
+                <input type="radio" id="style-hard" name="lamer-style" value="hard">
+                <label for="style-hard">Hardcore</label>
+            </div>
+        </div>
+
+        <div class="field-box">
+            <label for="input-text">inserisci testo</label>
+            <textarea id="input-text" placeholder="Scrivi qui il testo da hackerare..."></textarea>
+        </div>
+
+        <div class="field-box">
+            <label for="output-text">lamerized</label>
+            <textarea id="output-text" readonly placeholder="73570 l4m3r1zz470..."></textarea>
+        </div>
+    </div>
+
+    <script>
+        // Tabelle di sostituzione caratteri
+        const lamerMap = {
+            soft: {
+                'a': '4', 'e': '3', 'i': '1', 'o': '0', 's': '5', 't': '7'
+            },
+            medium: {
+                'a': '4', 'b': '8', 'e': '3', 'g': '9', 'i': '1', 
+                'o': '0', 'q': '9', 's': '5', 't': '7', 'z': '2'
+            },
+            hard: {
+                'a': '4', 'b': '|3', 'c': '(', 'd': '|)', 'e': '3', 
+                'f': '|=', 'g': '6', 'h': '|-|', 'i': '!', 'j': '_|', 
+                'k': '|<', 'l': '1', 'm': '|\\/|', 'n': '|\\|', 'o': '0', 
+                'p': '|*', 'q': '(,)', 'r': '|2', 's': '$', 't': '7', 
+                'u': '|_|', 'v': '\\/', 'w': '\\/\\/', 'x': '><', 'y': '`/', 'z': '2'
+            }
+        };
+
+        // Elementi del DOM
+        const inputText = document.getElementById('input-text');
+        const outputText = document.getElementById('output-text');
+        const styleRadios = document.querySelectorAll('input[name="lamer-style"]');
+
+        // Funzione di traduzione principale
+        function lamerize() {
+            const text = inputText.value;
+            // Recupera lo stile attualmente selezionato
+            const selectedStyle = document.querySelector('input[name="lamer-style"]:checked').value;
+            const currentMap = lamerMap[selectedStyle];
+            
+            let result = '';
+
+            for (let i = 0; i < text.length; i++) {
+                let char = text[i];
+                let lowerChar = char.toLowerCase();
+
+                // Applica la sostituzione se presente nella mappa dello stile scelto
+                if (currentMap[lowerChar] !== undefined) {
+                    char = currentMap[lowerChar];
+                }
+
+                // Se non siamo in modalità Hardcore, alterna casualmente maiuscole e minuscole 
+                // per i caratteri alfabetici rimasti non convertiti dai simboli
+                if (selectedStyle !== 'hard' && /[a-zA-Z]/.test(char)) {
+                    char = Math.random() > 0.5 ? char.toUpperCase() : char.toLowerCase();
+                }
+
+                result += char;
+            }
+
+            outputText.value = result;
+        }
+
+        // Event Listeners per la traduzione in tempo reale
+        inputText.addEventListener('input', lamerize);
+        
+        styleRadios.forEach(radio => {
+            radio.addEventListener('change', lamerize);
+        });
+    </script>
+</body>
+</html>
